@@ -1,0 +1,12 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.DynamicExample.Models.MyRenderModel>
+@{
+    Layout = null;
+}
+
+<h1>@Model.Id @Model.Content["Title"]</h1>
+	
+@Model.Content["Content1"]
+	
+<h2>@Model.Id</h2>
+
+@Model.Content["Content2"]
