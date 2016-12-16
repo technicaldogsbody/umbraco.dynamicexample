@@ -11,7 +11,7 @@ using Umbraco.Web.Routing;
 namespace Umbraco.DynamicExample.App_Code
 {
     public class MyEventHandler : ApplicationEventHandler
-    { 
+    {
 
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication,
             ApplicationContext applicationContext)
@@ -19,6 +19,16 @@ namespace Umbraco.DynamicExample.App_Code
             RouteTable.Routes.MapUmbracoRoute(
                 "child",
                 "parent/child/{id}",
+                new
+                {
+                    action = "index",
+                    controller = "my"
+                },
+                new MyRouteHandler());
+
+            RouteTable.Routes.MapUmbracoRoute(
+                "multilanguagechild",
+                "{language}/parent/child/{id}",
                 new
                 {
                     action = "index",

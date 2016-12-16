@@ -15,11 +15,16 @@ namespace Umbraco.DynamicExample.App_Code
     {
         protected override IPublishedContent FindContent(RequestContext requestContext, UmbracoContext umbracoContext)
         {
-            //var path = requestContext.HttpContext.Request.Url.GetAbsolutePathDecoded();
+            string path = requestContext.HttpContext.Request.Url.GetAbsolutePathDecoded();
 
-            // have we got a node with ID 1234?
-            var contentCache = UmbracoContext.Current.ContentCache;
-            var parent = contentCache.GetByRoute("/parent");
+            string rootPath = "/home";
+            
+            var language =  StringBefore(path);
+
+            if (!string.IsNullOrEmpty(language)) rootPath = language;
+
+            var contentCache = umbracoContext.ContentCache;
+            var parent = contentCache.GetByRoute(rootPath + "/parent", false);
             if (parent == null)
                 throw new ApplicationException("No Parent");
 
@@ -33,6 +38,12 @@ namespace Umbraco.DynamicExample.App_Code
 
             // render that node
             return content;
+        }
+
+        public static string StringBefore(string s)
+        {
+            int l = s.IndexOf("/parent", StringComparison.Ordinal);
+            return l > 0 ? s.Substring(0, l) : "";
         }
     }
 }
